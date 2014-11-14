@@ -1,0 +1,66 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>RouteMe</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<script type="text/javascript" src="//scribblemaps.com/api/js/">
+		{"baseAPI": 'leaflet'}</script>
+		<style>
+
+		</style>
+
+
+		<script type="text/javascript">
+	//locating current point
+	
+
+	window.onload = function () {
+		var sm = new scribblemaps.ScribbleMap('ScribbleMap',{
+			searchControl: true,
+			lineSettingsControl: false,
+			mapTypeControl: true,
+			fillColorControl: false,
+			lineColorControl: false,
+			zoomControl: true,
+			tools: ["menu", "edit", "drag", "eraser",
+			"scribble", "line", "label", "marker"],
+			defaultTool: "drag",
+			startZoom: 18,
+			startMapType: "hybrid",
+			disableZoom: false
+		});
+
+		sm.layers.createTileLayer("mbLayer",
+			[
+			'http://api.tiles.mapbox.com/v4/alliemeng.jk83b4n4/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWxsaWVtZW5nIiwiYSI6IkdFeDZMZncifQ.wjPqVXJr73FfMxrGEmWvzA'
+			], 20);
+
+
+
+		sm.ui.setMapTypes([
+		{
+			label: "Map Box Layer",
+			id: "mbLayer"
+		}]);
+
+		sm.layers.setBase("mbLayer");
+
+//start map from current location
+var start = function(position) {
+		//sm.draw.marker([position.coords.latitude, position.coords.longitude]);
+		//sm.draw.circle([pos.coords.latitude, pos.coords.longitude], unitRadius: "5km")
+		sm.view.setCenter([position.coords.latitude, position.coords.longitude]);
+	}
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(start)
+	}
+
+}
+
+	</script>
+</head>
+<body>
+	<div id="ScribbleMap" style="width: 100%; height: 100%"></div>
+</body>
+</html>

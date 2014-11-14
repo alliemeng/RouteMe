@@ -1,0 +1,15 @@
+{% extends "layouts.html" %}
+{% block body %}
+
+  <h2>The Easiest Way to Send Routes</h2>
+  <div class=metanav>
+    <a href="{{ url_for('drawroute') }}"><h3>Draw Route</h3></a>
+    <form action="{{ url_for('viewroute') }}" method=post class=routecoords>
+      <dl>
+        <dt><h3>Input Map: </h3>
+        <dd><input type=text size=30 name=viewmap><input type=submit value=Go>
+      </dl>
+    </form>
+  </div>
+
+{% endblock %}

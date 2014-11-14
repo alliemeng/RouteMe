@@ -1,0 +1,83 @@
+<head>
+    <script type="text/javascript" src="//scribblemaps.com/api/js/"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    window.onload = function() {
+          var sm = new scribblemaps.ScribbleMap('ScribbleMap', {
+                searchControl: false,
+			lineSettingsControl: false,
+			mapTypeControl: false,
+			fillColorControl: false,
+			lineColorControl: false,
+			zoomControl: true,
+			tools: ["menu","drag"],
+			defaultTool: "drag",
+			startZoom: 20,
+			startMapType: "hybrid",
+			disableZoom: false
+            });
+          sm.settings.enableZoom();
+          sm.ui.hideMenuIcon("facebook");
+          sm.ui.hideMenuIcon("newMap");
+          sm.ui.hideMenuIcon("saveMap");
+          sm.ui.hideMenuIcon("getWidget");
+          sm.ui.hideMenuIcon("sendToFriend");
+          sm.ui.hideMenuIcon("saveImage");
+          sm.ui.setTheme("dark");
+
+          if (window.location.hash.length > 1)
+  			sm.map.load({ id: window.location.hash.substring(1) });
+          
+          //sm.ui.showMenuIcon("LOAD_MAP");
+         // sm.ui.setMenuIcons(["loadMap"]);
+          //start map from current location
+var start = function(position) {
+		//sm.draw.marker([position.coords.latitude, position.coords.longitude]);
+		//sm.draw.circle([pos.coords.latitude, pos.coords.longitude], unitRadius: "5km")
+		sm.view.setCenter([position.coords.latitude, position.coords.longitude]);
+	}
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(start)
+	}
+	//draw a new circle every interval
+	var marker = function(pos){
+		//sm.draw.marker([pos.coords.latitude, pos.coords.longitude]);
+		sm.draw.circle([pos.coords.latitude, pos.coords.longitude], "2.5m")
+		//sm.draw.circle([42.30729368312444, -82.96805852527628], "45km")
+	}
+
+	window.setInterval(function(){
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(marker)
+		}
+		var over = sm.map.getOverlays();
+
+		over.reverse();
+		for (var i=0; i<over.length; i++)
+		{
+			console.log(over[i].getOverlayType());
+
+			if(over[i].getOverlayType() == 3){
+
+				over[i].remove();
+				break;
+			}
+
+		}
+
+	}, 2000);
+    }
+
+    </script>
+    <style type='text/css'>
+   
+.sm_panel.sm_menuPanel{width:75px;}
+
+      .sm_saveKML, .sm_saveGPX, .sm_googleMaps, .sm_saveGPX + .sm_label, .sm_saveKML + .sm_label, .sm_googleMaps + .sm_label {
+      	display: none;
+      }
+     </style>
+</head>
+<body>
+    <div id="ScribbleMap" style="width: 100%; height: 100%"></div>
+</body>

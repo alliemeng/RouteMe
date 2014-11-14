@@ -1,0 +1,58 @@
+<head>
+    <script type="text/javascript" src="//scribblemaps.com/api/js/"></script>
+    <script type="text/javascript">
+    window.onload = function() {
+          var sm = new scribblemaps.ScribbleMap('ScribbleMap', {
+              searchControl: true,
+			lineSettingsControl: false,
+			mapTypeControl: false,
+			fillColorControl: false,
+			lineColorControl: false,
+			zoomControl: true,
+			tools: ["menu","edit", "drag", "eraser",
+			"scribble", "line", "marker"],
+			defaultTool: "drag",
+			startZoom: 18,
+			startMapType: "hybrid",
+			disableZoom: false
+            });
+
+          sm.settings.enableZoom();
+          sm.ui.setTheme("dark");
+         // sm.ui.showMenuIcon("saveMap");
+         // sm.ui.setMenuIcons(["saveMap"]);
+
+          sm.ui.hideMenuIcon("facebook");
+          sm.ui.hideMenuIcon("newMap");
+         // sm.ui.hideMenuIcon("loadMap");
+          sm.ui.hideMenuIcon("getWidget");
+          sm.ui.hideMenuIcon("sendToFriend");
+          sm.ui.hideMenuIcon("saveImage");
+          //start map from current location
+var start = function(position) {
+		//sm.draw.marker([position.coords.latitude, position.coords.longitude]);
+		//sm.draw.circle([pos.coords.latitude, pos.coords.longitude], unitRadius: "5km")
+		sm.view.setCenter([position.coords.latitude, position.coords.longitude]);
+	}
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(start)
+	}
+
+	document.getElementById('shareButton').addEventListener('click', function() {
+		saveOpts = new scribblemaps.SaveOptions({
+			'id': 'allie7891'
+		});
+		sm.map.save(saveOpts);
+	}, false);
+    }
+    </script>
+    <style type='text/css'>
+      .sm_saveKML, .sm_saveGPX, .sm_googleMaps, .sm_saveGPX + .sm_label, .sm_saveKML + .sm_label, .sm_googleMaps + .sm_label {
+      	display: none;
+      }
+     </style>
+</head>
+<body>
+    <div id="ScribbleMap" style="width: 100%; height: 100%"></div>
+    <button id='shareButton'>Save &amp; share</button>
+</body>
